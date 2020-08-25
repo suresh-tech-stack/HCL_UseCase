@@ -8,6 +8,9 @@ Order Item has below data:
 - Product code
 - Product name
 - Quantity
+
+
+
 Order has below data:
 - Customer name
 - Order date
