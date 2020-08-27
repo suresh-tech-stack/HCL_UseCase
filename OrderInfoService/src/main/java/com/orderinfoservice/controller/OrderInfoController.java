@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.orderinfoservice.entity.OrderData;
 import com.orderinfoservice.model.OrderReq;
 import com.orderinfoservice.service.OrderInfoService;
-import com.orderinfoservice.service.OrderItemFeignClientProxy;
 
 /**
  * 
@@ -35,9 +34,6 @@ public class OrderInfoController {
 
 	@Autowired
 	OrderInfoService orderInfoService;
-
-	@Autowired
-	OrderItemFeignClientProxy orderItemFeignClientProxy;
 
 	@GetMapping("/retriveOrderDetails")
 	public ResponseEntity<List<OrderData>> getAllOrders() {
@@ -54,7 +50,7 @@ public class OrderInfoController {
 		OrderData placedOrder = orderInfoService.createOrder(orderReq);
 		return new ResponseEntity<>(placedOrder, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/orderById")
 	public ResponseEntity<OrderData> getOrderItemById(@RequestParam("id") long id) {
 		System.out.println("Product Controller: FindProductById: " + id);
