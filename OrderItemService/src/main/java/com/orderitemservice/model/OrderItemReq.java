@@ -1,18 +1,18 @@
 /**
  * 
  */
-package com.orderinfoservice.model;
+package com.orderitemservice.model;
 
-import java.util.List;
+import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * @author Suresh Ameda
@@ -23,21 +23,20 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderItem {
+public class OrderItemReq implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@NotNull
-	@Getter
-	@Setter
 	private long productCode;
 
 	@NotNull
-	@Getter
-	@Setter
 	private String productName;
 
 	@NotNull
-	@Getter
-	@Setter
 	private int productQuantity;
 
 }

@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.orderitemservice.model.OrderItem;
+import com.orderitemservice.entity.OrderItem;
+import com.orderitemservice.exception.OrderItemNotFoundException;
+import com.orderitemservice.model.OrderItemReq;
 import com.orderitemservice.repository.OrderItemRepo;
 
 /**
@@ -28,27 +31,31 @@ public class OrderItemService {
 	 * @return
 	 */
 	public List<OrderItem> getAllorderItems() {
-		List<OrderItem> orderItem = new ArrayList<>();
-		orderItemRepository.findAll();
-		return orderItem;
+		List<OrderItem> orderItemReq = new ArrayList<>();
+		orderItemReq = orderItemRepository.findAll();
+		return orderItemReq;
 	}
 
 	/**
 	 * Save the orderItemdata into Database.
 	 * 
-	 * @param orderItem
+	 * @param orderItemReq
 	 */
-	public void addOrderItem(OrderItem orderItem) {
-		orderItemRepository.save(orderItem);
+	public OrderItem addOrderItem(OrderItemReq orderItemReq) {
+		OrderItem orderItem = new OrderItem();
+		BeanUtils.copyProperties(orderItemReq, orderItem);
+		OrderItem placedOrderItem = orderItemRepository.save(orderItem);
+		return placedOrderItem;
 	}
 
 	/**
-	 * Get the order items based on order item id
+	 * get the order item details by orderId
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public Optional<OrderItem> getOrderItemById(long id) {
-		return orderItemRepository.findById(id);
+	public OrderItem getOrderItemById(long id) {
+
+		return orderItemRepository.findById(id).orElseThrow(() -> new OrderItemNotFoundException());
 	}
 }

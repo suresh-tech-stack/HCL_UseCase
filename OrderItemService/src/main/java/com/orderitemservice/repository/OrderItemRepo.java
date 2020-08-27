@@ -3,17 +3,15 @@
  */
 package com.orderitemservice.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.orderitemservice.model.OrderItem;
+import com.orderitemservice.entity.OrderItem;
 
 /**
  * @author Suresh Ameda
  *
  */
 
-@Repository
-public interface OrderItemRepo extends CrudRepository<OrderItem, Long> {
+public interface OrderItemRepo extends JpaRepository<OrderItem, Long> {
 
 }

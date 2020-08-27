@@ -1,43 +1,36 @@
-/**
- * 
- */
 package com.orderinfoservice.model;
 
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * @author Suresh Ameda
  *
  */
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderItem {
+public class OrderReq {
 
 	@NotNull
-	@Getter
-	@Setter
-	private long productCode;
+	@Size(min = 2, message = "Name should be atlease 2 characters ")
+	private String customerName;
 
 	@NotNull
-	@Getter
-	@Setter
-	private String productName;
+	private String shippingAddress;
 
 	@NotNull
-	@Getter
-	@Setter
-	private int productQuantity;
+	public List<OrderItem> orderItem;
+
+	@NotNull
+	private double totalPrice;
 
 }
