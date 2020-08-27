@@ -1,6 +1,6 @@
 package com.orderinfoservice.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,7 +28,7 @@ public class OrderReq {
 	private String shippingAddress;
 
 	@NotNull
-	public List<OrderItem> orderItem;
+	public Set<Long> orderItemIds;
 
 	@NotNull
 	private double totalPrice;

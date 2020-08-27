@@ -20,7 +20,7 @@ public class OrderItemServiceApplication {
 	private static final Logger LOGGER = LogManager.getLogger(OrderItemServiceApplication.class);
 
 	public static void main(String[] args) {
-		LOGGER.info("Started  OrderItemServiceApplication ...");
+		LOGGER.info(".... OrderItemServiceApplication Started  ....");
 		SpringApplication.run(OrderItemServiceApplication.class, args);
 	}
 

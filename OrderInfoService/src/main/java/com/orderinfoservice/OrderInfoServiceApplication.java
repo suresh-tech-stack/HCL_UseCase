@@ -19,7 +19,7 @@ public class OrderInfoServiceApplication {
 
     private static final Logger LOGGER = LogManager.getLogger(OrderInfoServiceApplication.class);
 	public static void main(String[] args) {
-		 LOGGER.info(" :::::  Started OrderInfoServiceApplication :::::: ");
+		 LOGGER.info(" :::::  OrderInfoServiceApplication Started  :::::: ");
 		SpringApplication.run(OrderInfoServiceApplication.class, args);
 	}
 

@@ -7,7 +7,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import javax.persistence.criteria.Order;
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -47,24 +50,22 @@ public class OrderInfoService {
 	@Transactional
 	public OrderData createOrder(@RequestBody OrderReq orderReq) {
 		LOGGER.info("Enter into OrderInfoService :: createOrder {} ");
-		Set<Long> orderItemId = new HashSet<>();
-		OrderItem savedOrderItem = null;
-		OrderItem availableOrderItem = null;
+		Set<Long> orderItemIds = new HashSet<>();
 		OrderData orderData = new OrderData();
-		if (!orderReq.getOrderItem().isEmpty()) {
-			for (OrderItem orderItem : orderReq.getOrderItem()) {
-				try {
-					availableOrderItem = orderItemFeignClientProxy.getOrderItemById(orderItem.getProductCode());
-				} catch (Exception e) {
-					if (availableOrderItem == null) {
-						savedOrderItem = orderItemFeignClientProxy.saveOrderItem(orderItem);
-						orderItemId.add(savedOrderItem.getProductCode());
-					}
-				}
+
+		if (!orderReq.getOrderItemIds().isEmpty()) {
+
+			orderItemIds = orderReq.getOrderItemIds();
+			// Calling the another orderItemService MS to check weather the given orderItem
+			// is present or not
+			Set<OrderItem> orderItems = orderItemFeignClientProxy.getOrderItemByIds(orderItemIds);
+			if (orderItems.size() != orderItemIds.size()) {
+				throw new OrderNotFoundException();
 			}
+
 		}
 		BeanUtils.copyProperties(orderReq, orderData);
-		orderData.setOrderItemId(orderItemId);
+		orderData.setOrderItemIds(orderItemIds);
 		orderData.setOrderDate(new Date());
 		LOGGER.info("Exited from OrderInfoService :: createOrder {} ");
 		return orderInfoServiceRepository.save(orderData);
@@ -76,10 +77,18 @@ public class OrderInfoService {
 	 * @return
 	 */
 	public List<OrderData> getAllOrders() {
+		LOGGER.info("Fetching all the Order Details from DB ");
 		return orderInfoServiceRepository.findAll();
 	}
 
+	/**
+	 * getting the order details by orderId
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public OrderData getOrderById(long id) {
+		LOGGER.info("Fetching the orderData for given orderId");
 		return orderInfoServiceRepository.findById(id).orElseThrow(() -> new OrderNotFoundException());
 	}
 

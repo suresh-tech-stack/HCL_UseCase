@@ -6,6 +6,7 @@ package com.orderitemservice.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -46,7 +47,7 @@ public class OrderItemController {
 	 */
 	@GetMapping("/retriveOrderItem")
 	public ResponseEntity<List<OrderItem>> getAllOrderItems() {
-		LOGGER.info("Received Request ....");
+		LOGGER.info("OrderItemController :: Received Request ....");
 		List<OrderItem> orderItemList = new ArrayList<OrderItem>();
 		orderItemList = orderItemService.getAllorderItems();
 		return new ResponseEntity<>(orderItemList, HttpStatus.OK);
@@ -59,7 +60,7 @@ public class OrderItemController {
 	 */
 	@PostMapping("/placeOrderItem")
 	public ResponseEntity<OrderItem> saveOrderItem(@Valid @RequestBody OrderItemReq orderItemReq) {
-		LOGGER.info("Received Request ....");
+		LOGGER.info("OrderItemController :: Received Request ....");
 		OrderItem placedOrderItem = orderItemService.addOrderItem(orderItemReq);
 		return new ResponseEntity<>(placedOrderItem, HttpStatus.OK);
 	}
@@ -71,9 +72,22 @@ public class OrderItemController {
 	 */
 	@GetMapping("/orderItemById")
 	public ResponseEntity<OrderItem> getOrderItemById(@RequestParam("id") long id) {
-		System.out.println("Product Controller: FindProductById: " + id);
+		LOGGER.info("OrderItemController :: Received Request :: getOrderItemById: " + id);
 		OrderItem orderItemReq = orderItemService.getOrderItemById(id);
 		return new ResponseEntity<>(orderItemReq, HttpStatus.OK);
 	}
 
+	/**
+	 * Fetching the OrderItemsBy productCode
+	 * @param ids
+	 * @return
+	 */
+	@GetMapping("/orderItemByIds")
+	public ResponseEntity<Set<OrderItem>> getOrderItemByIds(@RequestParam("ids") Set<Long> ids) {
+		LOGGER.info("OrderItemController :: Received Request ::  getOrderItemByIds: " + ids.toString());
+		Set<OrderItem> orderItems = orderItemService.getOrderItemByIds(ids);
+
+		return new ResponseEntity<>(orderItems, HttpStatus.OK);
+
+	}
 }

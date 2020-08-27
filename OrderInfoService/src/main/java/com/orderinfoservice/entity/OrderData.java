@@ -44,7 +44,7 @@ public class OrderData implements Serializable {
 	private String shippingAddress;
 
 	@ElementCollection(targetClass = Long.class)
-	public Set<Long> orderItemId;
+	public Set<Long> orderItemIds;
 
 	private double totalPrice;
 

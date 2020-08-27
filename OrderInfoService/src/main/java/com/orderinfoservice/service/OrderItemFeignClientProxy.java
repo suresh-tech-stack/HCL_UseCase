@@ -1,6 +1,7 @@
 package com.orderinfoservice.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,11 @@ public interface OrderItemFeignClientProxy {
 	public List<OrderReq> getAllOrderItems();
 
 	@PostMapping("/placeOrderItem")
-	public OrderItem saveOrderItem( @RequestBody OrderItem orderItem);
+	public OrderItem saveOrderItem(@RequestBody OrderItem orderItem);
 
 	@GetMapping("/orderItemById")
-	public OrderItem getOrderItemById(@RequestParam("id")long id);
+	public OrderItem getOrderItemById(@RequestParam("id") long id);
+
+	@GetMapping("/orderItemByIds")
+	public Set<OrderItem> getOrderItemByIds(@RequestParam("ids") Set<Long> ids);
 }
